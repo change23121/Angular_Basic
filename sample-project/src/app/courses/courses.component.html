@@ -1,0 +1,34 @@
+<h2>Courses from Edureka</h2>
+<ul class="courses">
+    <li *ngFor="let course of courses"
+    [class.selected]="course=== selectedCourse"
+    (click)="onSelect(course)">
+    <span class="badge">{{course.id}}</span>
+    {{course.name}}</li>
+</ul>
+
+<app-course-detail [course]= "selectedCourse"></app-course-detail>
+
+<!-- <div *ngIf="selectedCourse">
+    <h2>{{selectedCourse.name | uppercase}} Details</h2>
+    <div><span>ID:</span>
+    {{selectedCourse.id}}</div>
+        <div>
+            <label>
+                Name:
+                <input [(ngModel)]="selectedCourse.name"
+                placeholder = "name" />
+            </label>
+        </div>
+
+</div> -->
+
+
+<!-- <div><span> id: </span> {{course.id}}</div> -->
+
+<!-- <div><span> name: </span> {{course.name}}</div> -->
+
+<!-- 2 way data binding
+<div><label> name:
+    <input [(ngModel)] ="course.name" placeholder= "name"/>
+</label></div> -->

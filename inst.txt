@@ -1,0 +1,54 @@
+Important components of Angular
+
+Module
+    Mosule defines each program with itself it don't interfare with 
+    other modules. it allows to group components and other building blocks.
+    declare the components in declarations in @ngModule
+
+Component
+    Angular has at leat one component i.e root component. components are 
+    classes with data and logic. component are defined to control
+    the view of MVC
+
+MetaData
+    it describes how to process the class. Decorator is used
+    to attach metadata. Links components with templates
+
+Templates
+    used to define view of a component, looks like html, except
+    for few differences like no body, head tags, script tag is
+    ignored can use {{<name>}} i.e interpolation. Describes 
+    how the component is rendered on the page.
+
+Data Binding
+    types of data Binding
+    interpolation     DOM <------ component
+            {{value}}
+    property binding  DOM <------ component
+            [property] = "value"
+    event binding     DOM -------> component
+            (event) = "event handler"
+    2 way data binding  DOM <------> component
+            [(ngModel)]
+
+    Pipe takes integers, strings, arrays, and date 
+    as input separated with |. It transforms the 
+    data in the format as required and displays 
+    the same in the browser.  
+    the title text in upper and lower case by using pipes.
+
+services 
+    features or functions req is carried out by services.
+    dependency injection is done by injecting a service 
+    class into a component or module class.
+
+directives
+    changes the apperance or behavior of a DOM element
+
+    components --> directives with a template
+
+    structural directives --> adds & removes DOM
+                elements to change DOM layout
+    
+    Attribute directives --> changes the apperance
+                or behvior of an element

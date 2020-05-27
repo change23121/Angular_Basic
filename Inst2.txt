@@ -1,0 +1,344 @@
+index.html --> shell page
+bootstrap --> loading
+
+M: data
+V: html
+C: functn
+
+load tha app into the browser by loading App module
+
+main.ts have only 1 module
+component is a class--> Property & methods
+{{ }}  -->  taking from class and displaying in view.
+
+nest component  --> Heirarchy
+i.e in appcomp.html <prod-root></prod-root>
+and in prodcomp.html <mobile-root></mobile-root>
+
+then heirarchy is App--> product --> mobile 
+
+
+modules contains app module thus we need to mention the components inside the declaratoions of @NgModule
+
+template : <<onle line>>
+            ` for multi line`
+
+templateUrl : for html file
+
+bootstrap initializes the componnet only one componnet usually it is app component
+
+If I want to create a normal bean class then use .ts file it is not a component eg product.ts
+
+*   --> structural directive
+
+browser does not understand typescript thus .ts--> .js (it is transpiling)
+
+Primary modules         ->>> "User Module" , "Products Module" and :Payment Module"
+
+                    ---------------------------------
+                                    SPA
+                    --------------------------------
+                    |           Module              |
+                    --------------------------------
+                    |           component           |
+                    |           /       \           |
+                    |       component   component   |
+                    --------------------------------
+
+Root module --> app module and App component
+
+Directives  --> element / attribute / component
+
+Attribute directive
+
+1. structural directive -> DOM
+*ngFor
+*ngIf       -->booelan
+*ngSwitch     --> concrete values
+
+structural directive identified by *
+
+<img [src] =" prod.imgPath" />      --> property binding
+<img src =" {{prod.imgPath}}" />    --> interpolation
+
+1. []   --> property binding    -> initializes property with a variable
+        eg <td> <button [disabled] ="isAdmin" > Edit</button> </td>
+
+2. ()   --> Event binding   --> binding an event to a handler
+
+3. [()]    --> 2 way data binding 
+
+4. #    --> template ref variable
+
+<button (click)  ="remove()" > Delete </button>
+
+let i = index;  --> to use index val of functn
+
+<*ngFor =" let p of P1; let i = index; ">
+
+$event object   --> js
+$event.target.value
+$event.clientX
+
+we can use template ref var & it contains the latest value & it begins with # eg #search
+
+Dependency Injection DI 
+why?
+tightly coupled coupledno unit testable
+create instance is tied to class
+
+eg 
+constructor()
+{
+    this.e = new E();
+    this. t= new T();
+}
+
+soln
+
+constructor( e, t)
+{
+    this.e =e;
+    this.t=t;
+}
+...
+function main()
+{
+    e = new E();
+    t = new T();
+}
+
+DI  --> framework will create instance for you.
+
+main()
+{
+    injector = new AngularInjector();
+    var carObj = injector. get(car);
+}
+
+// Provider
+var injector  = ReflectiveInjector.resolveAndCreate([
+    {provide: 'e', useClass:E1},
+    {provide: 't', useClass: Ta}
+]);
+
+Dependencies  --> engine, tires and doors
+injector    --> nagular <V> injector
+Providers   ---> how angular will create these instances
+
+Componnets are tied to data bcoz    --> u want to share the data
+                                    --> u want to modify the data
+
+Services
+common data like prodList, 
+Ajax calls like getProd()
+common utilities like sorting(), calculation
+
+ngInit()    --> invoke service
+
+flow is service is called then component is called then constructor is called
+
+Model comes from Services i.e services provide the data
+
+ProdService is Dependency of ProdComponent
+initialization of comp happens in constructor
+
+
+Sevices are singletons at the pint of injection and provided
+if a service is injected in productscomp
+child1comp and child2comp then by default same service will be shared among them
+ thus will have same instance as the se is injected in parent and carryforward to childrens
+
+ [(ngModel )]   --> to achieve 2 way data binding i.e mode <--> view 
+ it is a comination of property binding and event binding
+ previously we need to use [] --> model to view and ()  -->view to model 
+
+ ngModule is part of FormsModule 
+ RouterModule
+ HttpCLientModule
+ CoreModule and BrowserModule --> default modules
+
+Components in a tree structure
+and you can pass the values from 1- comp to 1 or more comp
+
+Login component will send the username to profileComp and headerComp
+username is subject 
+Observers: profileComp and headerComp
+
+There is one subject i.e data of intrest and many observers.
+
+To transfer data from one component to another component
+1. common approach --methods
+2. in the common service implement observables --new approach
+
+Observers --subscribe() and unsubscribe()  from observers to subject
+            notify()  from subject to observers i.e changes will be notified
+
+RxJs library will help to identify observables and subject
+
+        // if you make any constructor parameter private then it will 
+        // automatically add it as a reference variable and we can use loginservice 
+        // anywhere in class , otherwise we had to create a local var then 
+        // initailized to it in constructor
+
+constructor( private LoginService: LoginService){ }
+
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+Parent to child communication --> @Input() --> custom property eg [profilename]="name"
+Appcomp --> parent
+profileComp --> child
+
+Child to Parent  ---> @Output()   --> custom events 
+
+data exchange between heirarchy is Appcomp and profileComp
+data exchnage between not a heirarchy is loginComp and headerComp 
+
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+                            Form Validation (Template Driven)
+Boolean validation properties, available inside ngModel
+- pristine   --when the field is unmodified
+- dirty      --when user enters some value
+- valid      --when the value is valid
+- invalid    --when the value is invalid
+
+error object    --has more details of the validation error
+
+and accordingly it will throw an error message
+
+classes, can use in styles. Behavior is same as properties. It performs template validation
+- ng-pristine
+- ng-dirty
+- ng-valid
+- ng-invalid
+
+Reactive Forms for custom validation
+
+========================================================================================================
+========================================================================================================
+previously we used to use -callback
+
+ajax callback
+eg-->    $.get('url',function(response){
+            //callback handle the response
+            //update the view
+            //nested callback was a problem bcoz it's difficult to understand which funct is executing when
+        })
+
+later we used to use promises
+eg-->       $ajaxcall('url').then(function(){
+            }).then().then()
+
+then we moved to observables
+- subject ---> data
+- observables     --> subscribe to the subject 
+
+why observables compared to promises
+- observables handles multiple vlaues and promises handles one and return one.
+- observables are cancellable where as promises are not
+        eg. i am seraching for keyword begin with je but later i change it to ja. so, first request
+        need to be cancelled and should work on new request.
+
+- promises are invoked after all the data is received thus it will be problem if data is large.
+- observables use streams thus they are faster and efficient
+
+
+By default observables are used.
+
+Rest APIs and ajax calls are generally called in services 
+PhotosComp  --> to display the photos 
+PhotosService      --> to make calls 
+
+==================================================================================================
+
+                                Routing
+loading content dynamically based on the links which user clicks on 
+
+specify the mapping of URL with component
+/product ----------------> ProductComponent
+
+Routes is an interface belongs to router package
+
+step1: include the imports 
+        RouterModule.forRoot(routes)
+
+step2: Define mapping in app.module.ts 
+            let routes: Routes=[
+                    {
+                    path:'',
+                    component: WelcomeComponent
+                    },
+                    {
+                        path: 'login',
+                        component: LoginComponent
+                    }]
+
+step3: Define routerLink
+        <a routerLink ="{{item | lowercase}}">{{item}}</a></li>
+
+<router-outlet></router-outlet>
+when you click on any of the menu items then the component gets actually loaded inside this router-outlet 
+
+Pipes
+        format the data just for view 
+
+        Built-in Pipes
+        1. lowercase / uppercase
+        2. json
+        3. currency             --> currency:'INR'
+        4. number
+        5. date                 --> medium, smallDate and longDate
+        6. custom
+ eg {{name | lowercase }}
+
+        For custom pipes, we have to use @pipes 
+
+- childrens in routerLink
+
+eg                      product --> mens, womens and kids
+        then kink will be ../product/womens 
+
+eg-
+{
+      path:'products',
+      component: ProductsComponent,
+      children:[
+        {
+        path: 'men',
+        component: MensComponent,
+        children:[
+          {
+            path:'contacts',
+            component:ContactsComponent
+          }
+        ]
+        } 
+      ]
+    },        
+
+---------------------------------------------------------------------------------------------------------
+
+{
+      path:'products',
+      component: ProductsComponent,
+      children:[
+        {
+          // /:id is root parameter 
+        path: 'productdetails/:id',
+        component: ProductDetailsComponent,
+        } 
+      ]
+    },
+
+in html file of products.component.html 
+
+<td><a [routerLink] = "[ 'productdetails', p.id]">{{p.name}}</a></td>
+
+productdetails is the path and p.id wil store the path. routerLink is used to direct the page,
+href can not be used and at the end <router-outlet> </router-outlet> is used to show the content 
+of page based on the input passed i.e id. 
+
+ActivatedRoute will help us to get the data from root 
